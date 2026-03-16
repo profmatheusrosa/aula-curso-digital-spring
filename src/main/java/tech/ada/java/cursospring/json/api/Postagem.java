@@ -1,4 +1,4 @@
-package tech.ada.java;
+package tech.ada.java.cursospring.json.api;
 
 // Importações da biblioteca Lombok - biblioteca que gera código boilerplate automaticamente
 import lombok.Data;               // Gera getters, setters, toString, equals e hashCode

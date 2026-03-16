@@ -1,22 +1,24 @@
-package tech.ada.java;
+package tech.ada.java.cursospring.json;
 
 // Importações da biblioteca Lombok - biblioteca que gera código boilerplate automaticamente
 import lombok.AllArgsConstructor; // Gera construtor com todos os atributos como parâmetros
-import lombok.Data;               // Gera getters, setters, toString, equals e hashCode
-import lombok.NoArgsConstructor;  // Gera construtor vazio (sem parâmetros)
+import lombok.Data; // Gera getters, setters, toString, equals e hashCode
+import lombok.NoArgsConstructor; // Gera construtor vazio (sem parâmetros)
 
 /**
  * Classe que representa uma postagem na plataforma de redes sociais.
  *
- * Esta classe é semelhante a Postagem, mas com mais atributos relacionados a interações
- * e métricas de engajamento (curtidas, comentários, visualizações, tags, reações).
+ * Esta classe é semelhante a Postagem, mas com mais atributos relacionados a
+ * interações
+ * e métricas de engajamento (curtidas, comentários, visualizações, tags,
+ * reações).
  *
  * Utiliza anotações do Lombok para gerar automaticamente métodos comuns
  * como getters, setters, construtores e toString.
  */
-@Data                        // Anotação Lombok que gera: getters, setters, toString, equals e hashCode
-@NoArgsConstructor           // Anotação Lombok que gera um construtor vazio: Post()
-@AllArgsConstructor          // Anotação Lombok que gera um construtor com todos os parâmetros
+@Data // Anotação Lombok que gera: getters, setters, toString, equals e hashCode
+@NoArgsConstructor // Anotação Lombok que gera um construtor vazio: Post()
+@AllArgsConstructor // Anotação Lombok que gera um construtor com todos os parâmetros
 public class Post {
 
     // Atributo: Identificador único da postagem (Long)
@@ -60,23 +62,22 @@ public class Post {
      *
      * @return String contendo todos os atributos da postagem formatados
      *
-     * Exemplo de retorno:
-     * Post{id=1, title='Meu Primeiro Post', body='Conteúdo...',
-     *      userId=5, views=150, tags=[java, spring], reactions=Reaction{...}}
+     *         Exemplo de retorno:
+     *         Post{id=1, title='Meu Primeiro Post', body='Conteúdo...',
+     *         userId=5, views=150, tags=[java, spring], reactions=Reaction{...}}
      */
     @Override // Anotação que indica que este método sobrescreve um método da classe pai
     public String toString() {
         // Constrói uma string formatada com todos os atributos da postagem
         return "Post{" +
-                "id=" + id +                                // Adiciona o ID
-                ", title='" + title + '\'' +                // Adiciona o título entre aspas
-                ", body='" + body + '\'' +                  // Adiciona o corpo entre aspas
-                ", userId=" + userId +                      // Adiciona o ID do usuário
-                ", views=" + views +                        // Adiciona o número de visualizações
-                ", tags=" + java.util.Arrays.toString(tags) +  // Converte array para string
-                ", reactions=" + reactions +                // Adiciona o objeto de reações
-                '}';                                        // Fecha a chave
+                "id=" + id + // Adiciona o ID
+                ", title='" + title + '\'' + // Adiciona o título entre aspas
+                ", body='" + body + '\'' + // Adiciona o corpo entre aspas
+                ", userId=" + userId + // Adiciona o ID do usuário
+                ", views=" + views + // Adiciona o número de visualizações
+                ", tags=" + java.util.Arrays.toString(tags) + // Converte array para string
+                ", reactions=" + reactions + // Adiciona o objeto de reações
+                '}'; // Fecha a chave
     }
 
 }
-
