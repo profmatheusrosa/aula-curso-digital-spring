@@ -42,7 +42,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <!-- relativePath vazio significa buscar no repositório remoto -->
         <relativePath/>
     </parent>
@@ -54,13 +54,13 @@
     -->
     <properties>
         <!-- Versão do Java que será usada para compilar e executar o projeto -->
-        <java.version>21</java.version>
+        <java.version>23</java.version>
 
         <!-- Versão do Java source (código fonte) para compilação -->
-        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.source>23</maven.compiler.source>
 
         <!-- Versão do Java target (compatibilidade) para bytecode compilado -->
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.target>23</maven.compiler.target>
 
         <!-- Codificação de caracteres usada nos arquivos do projeto -->
         <!-- UTF-8 suporta caracteres especiais e acentos -->
@@ -157,9 +157,9 @@
                - Anotações para customizar serialização
                - @JsonProperty, @JsonIgnore, @JsonFormat
 
-            VERSÃO: 2.17.0
-            - Compatível com Spring Boot 3.2.0
-            - Suporta Java 21
+            VERSÃO: 2.17.2
+            - Compatível com Spring Boot 3.3.0
+            - Suporta Java 23
             - Última versão estável
 
             EXEMPLO DE USO:
@@ -191,7 +191,18 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.0</version>
+            <version>2.17.2</version>
+        </dependency>
+
+        <!--
+            SpringDoc OpenAPI UI
+            Gera automaticamente documentação interativa (Swagger UI) para a API.
+            Acesse em: http://localhost:8080/swagger-ui.html
+        -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.6.0</version>
         </dependency>
     </dependencies>
 
@@ -272,6 +283,22 @@
                 mvn spring-boot:start      - inicia app em background
                 mvn spring-boot:stop       - para app em background
             -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>23</source>
+                    <target>23</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
