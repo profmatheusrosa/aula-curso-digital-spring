@@ -1,307 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    ARQUIVO POM.XML - PROJECT OBJECT MODEL
-    Este arquivo é o coração de qualquer projeto Maven.
-    Ele define como o projeto deve ser construído, suas dependências e configurações.
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!-- Versão do modelo POM que estamos usando (sempre 4.0.0 para Maven moderno) -->
     <modelVersion>4.0.0</modelVersion>
 
-    <!--
-        IDENTIFICAÇÃO DO PROJETO
-        groupId: Identificador único da organização/grupo (convenção: com.empresa.projeto)
-        artifactId: Nome do projeto/artefato
-        version: Versão atual do projeto
-    -->
     <groupId>tech.ada.java</groupId>
     <artifactId>curso-spring</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- packaging: Define o formato final do build (jar = Java ARchive, arquivo compactado) -->
     <packaging>jar</packaging>
 
-    <!-- Nome amigável do projeto (exibido em relatórios) -->
     <name>Curso Spring</name>
 
-    <!-- Descrição do projeto para documentação -->
     <description>Projeto de aprendizado Spring Framework</description>
 
-    <!--
-        PARENT PROJECT (POM HERDADO)
-        Herdamos de spring-boot-starter-parent que fornece:
-        - Dependências padrão do Spring Boot
-        - Configurações padrão de build
-        - Plugin do Maven para Spring Boot
-        - Versões compatíveis de dependências
-    -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
-        <!-- relativePath vazio significa buscar no repositório remoto -->
+        <version>3.3.0</version>
         <relativePath/>
     </parent>
 
-    <!--
-        PROPRIEDADES DO PROJETO
-        Definem variáveis que podem ser usadas em todo o pom.xml
-        Facilitam manutenção e permitem mudar valores globalmente
-    -->
     <properties>
-        <!-- Versão do Java que será usada para compilar e executar o projeto -->
-        <java.version>21</java.version>
-
-        <!-- Versão do Java source (código fonte) para compilação -->
-        <maven.compiler.source>21</maven.compiler.source>
-
-        <!-- Versão do Java target (compatibilidade) para bytecode compilado -->
-        <maven.compiler.target>21</maven.compiler.target>
-
-        <!-- Codificação de caracteres usada nos arquivos do projeto -->
-        <!-- UTF-8 suporta caracteres especiais e acentos -->
+        <java.version>23</java.version>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!--
-        DEPENDÊNCIAS DO PROJETO
-        Todas as bibliotecas externas necessárias para o projeto funcionar
-        Maven baixa automaticamente essas dependências do repositório central
-    -->
     <dependencies>
-        <!--
-            Spring Boot Starter Web
-            Fornece suporte para criar aplicações web com Spring MVC
-            Inclui: Tomcat (servidor web), Spring Web MVC, Jackson (JSON)
-        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--
-            Spring Boot Starter Data JPA
-            Fornece suporte para acesso a banco de dados usando JPA/Hibernate
-            JPA = Java Persistence API (interface padrão para ORM)
-            Hibernate = Implementação que transforma objetos Java em SQL
-        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!--
-            H2 Database
-            Banco de dados em memória ou embarcado (não precisa instalar)
-            Perfeito para desenvolvimento e testes
-            scope=runtime: só é usado durante execução, não durante compilação
-        -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!--
-            Lombok
-            Biblioteca que gera código boilerplate automaticamente (getters, setters, etc)
-            Reduz muito a quantidade de código que precisa escrever
-            optional=true: seu código não depende de Lombok em tempo de execução
-        -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!--
-            Spring Boot Starter Test
-            Fornece ferramentas para testes automatizados
-            Inclui: JUnit (framework de testes), Mockito (mock de objetos), AssertJ (assertions)
-            scope=test: só é usado para testes, não vai para produção
-        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!--
-            Jackson Databind
-            Biblioteca líder para serialização/desserialização de JSON em Java.
-
-            O QUE JACKSON FAZ:
-            - Converte objetos Java para JSON (serialização)
-            - Converte JSON para objetos Java (desserialização)
-            - Fornece anotações para customizar mapeamento
-            - Suporta tipos genéricos e herança
-            - Funciona com collections (List, Map, etc)
-
-            COMPONENTES DO JACKSON:
-            1. jackson-core
-               - Processamento de streaming (leitura/escrita de JSON)
-               - Parser baixo nível
-               - Mais rápido, menos memória
-
-            2. jackson-databind (ESTE)
-               - Mapeamento de objetos (Object Mapping)
-               - Anotações como @JsonProperty, @JsonIgnore
-               - Conversão automática de tipos
-               - API mais fácil de usar
-
-            3. jackson-annotations
-               - Anotações para customizar serialização
-               - @JsonProperty, @JsonIgnore, @JsonFormat
-
-            VERSÃO: 2.17.0
-            - Compatível com Spring Boot 3.2.0
-            - Suporta Java 21
-            - Última versão estável
-
-            EXEMPLO DE USO:
-            ObjectMapper mapper = new ObjectMapper();
-
-            // JSON para Objeto
-            String json = "{\"id\":1,\"title\":\"Post\"}";
-            Post post = mapper.readValue(json, Post.class);
-
-            // Objeto para JSON
-            Post post = new Post(1L, "Título", "Corpo", ...);
-            String json = mapper.writeValueAsString(post);
-
-            ANOTAÇÕES ÚTEIS:
-            @JsonProperty("field_name")       → Renomeia propriedade no JSON
-            @JsonIgnore                        → Ignora campo na serialização
-            @JsonFormat(pattern="yyyy-MM-dd") → Formata datas
-            @JsonInclude(Include.NON_NULL)    → Não inclui campos null
-            @JsonCreator                       → Define constructor customizado
-
-            VANTAGENS:
-            ✓ Fácil de usar com Spring (auto-configurado)
-            ✓ Performance excelente
-            ✓ Muita flexibilidade com anotações
-            ✓ Suporta tipos complexos
-            ✓ Comunidade grande e bem suportada
-            ✓ Padrão de facto em projetos Java
-        -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.0</version>
+            <version>2.17.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 
-    <!--
-        ╔═════════════════════════════════════════════════════════════════════════╗
-        ║                    CONFIGURAÇÃO DE BUILD DO PROJETO                     ║
-        ╚═════════════════════════════════════════════════════════════════════════╝
-
-        Seção que configura como Maven vai compilar, testar e empacotar o projeto.
-
-        FASE DO BUILD MAVEN (ordem de execução):
-        1. validate    - valida estrutura do projeto
-        2. compile     - compila código fonte (.java → .class)
-        3. test        - executa testes automatizados
-        4. package     - empacota (.class → .jar/.war)
-        5. verify      - verifica integridade do pacote
-        6. install     - instala no repositório local (~/.m2)
-        7. deploy      - instala em repositório remoto (servidor Maven)
-
-        PLUGINS modificam o comportamento de cada fase
-        Exemplo: spring-boot-maven-plugin muda a fase 4 (package)
-        em vez de criar um JAR simples, cria um JAR executável com Tomcat embarcado
-    -->
     <build>
-        <!--
-            PLUGINS = Extensões do Maven
-            Modificam ou adicionam funcionalidades a fases do build.
-            Cada plugin pode ter múltiplos goals (objetivos/tarefas).
-        -->
         <plugins>
-            <!--
-                SPRING BOOT MAVEN PLUGIN
-                Plugin oficial do Spring Boot para empacotamento e execução.
-
-                PRINCIPAIS FUNCIONALIDADES:
-                1. Cria JAR executável (não precisa de Tomcat externo)
-                   - mvn package → cria target/meuapp-1.0-SNAPSHOT.jar
-                   - java -jar meuapp-1.0-SNAPSHOT.jar → executa a aplicação
-
-                2. Executa direto da IDE
-                   - mvn spring-boot:run → executa classes sem empacotar
-                   - Útil durante desenvolvimento
-
-                3. Repackage do JAR
-                   - Sem este plugin: JAR simples (só classes compiladas)
-                   - Com plugin: JAR com tudo (classes + dependências + Tomcat)
-
-                COMPARAÇÃO JAR COM e SEM PLUGIN:
-                SEM PLUGIN (JAR simples):
-                - Só contém classes compiladas
-                - Precisa de Tomcat instalado externamente
-                - Não funciona com "java -jar"
-                - Tamanho: ~100KB
-
-                COM PLUGIN (JAR executável):
-                - Contém classes + todas as dependências + Tomcat embarcado
-                - Funciona direto: java -jar app.jar
-                - Tudo embarcado em um único JAR
-                - Tamanho: ~50MB (maior, mas é tudo que precisa)
-
-                STRUCTURE DO JAR GERADO:
-                meuapp-1.0-SNAPSHOT.jar/
-                ├── BOOT-INF/
-                │   ├── classes/           (código compilado)
-                │   ├── lib/               (todas as dependências .jar)
-                │   └── classpath.idx      (índice para performance)
-                ├── META-INF/
-                │   ├── MANIFEST.MF        (entry point: Main-Class)
-                │   └── spring.factories   (auto-configuration)
-                └── org/
-                    └── springframework/
-                        └── boot/
-                            └── loader/    (boot loader de startup)
-
-                GOALS DISPONÍVEIS:
-                mvn spring-boot:run        - executa aplicação
-                mvn spring-boot:repackage  - cria JAR executável
-                mvn spring-boot:start      - inicia app em background
-                mvn spring-boot:stop       - para app em background
-            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>23</source>
+                    <target>23</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
-                <!--
-                    CONFIGURATION = customizações deste plugin
-                -->
                 <configuration>
-                    <!--
-                        EXCLUDES = dependências a NÃO incluir no JAR final
-
-                        POR QUÊ EXCLUIR LOMBOK?
-                        - Lombok é processado em tempo de COMPILAÇÃO
-                        - Gera código em tempo de compilação
-                        - Em tempo de execução, o código já foi gerado
-                        - Lombok.jar não é necessário no JAR final
-                        - Exclui reduz tamanho do JAR em alguns MB
-
-                        O QUE ACONTECE:
-                        1. Maven compila as classes (Lombok gera getters/setters)
-                        2. Bytecode final contém todos os métodos gerados
-                        3. Lombok.jar NÃO é necessário mais
-                        4. Excluir Lombok do JAR economiza espaço
-                        5. Aplicação funciona normalmente sem Lombok
-
-                        SE NÃO EXCLUÍSSE:
-                        - Lombok.jar seria incluído desnecessariamente
-                        - Aumentaria tamanho do JAR em ~2-3MB
-                        - Já que não é usado em runtime
-                    -->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -314,4 +111,3 @@
     </build>
 
 </project>
-

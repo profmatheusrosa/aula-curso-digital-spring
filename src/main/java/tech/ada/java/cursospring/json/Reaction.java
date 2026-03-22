@@ -1,14 +1,15 @@
-package tech.ada.java;
+package tech.ada.java.cursospring.json;
 
 // Importações da biblioteca Lombok - biblioteca que gera código boilerplate automaticamente
 import lombok.AllArgsConstructor; // Gera construtor com todos os atributos como parâmetros
-import lombok.Data;               // Gera getters, setters, toString, equals e hashCode
-import lombok.NoArgsConstructor;  // Gera construtor vazio (sem parâmetros)
+import lombok.Data; // Gera getters, setters, toString, equals e hashCode
+import lombok.NoArgsConstructor; // Gera construtor vazio (sem parâmetros)
 
 /**
  * Classe que representa as reações de engajamento em uma postagem.
  *
- * Armazena contadores de diferentes tipos de reações que os usuários podem fazer
+ * Armazena contadores de diferentes tipos de reações que os usuários podem
+ * fazer
  * em relação a uma postagem (curtir, não curtir, etc).
  *
  * Cada postagem pode ter um objeto Reaction associado que rastreia o número
@@ -17,9 +18,9 @@ import lombok.NoArgsConstructor;  // Gera construtor vazio (sem parâmetros)
  * Utiliza anotações do Lombok para gerar automaticamente métodos comuns
  * como getters, setters, construtores e toString.
  */
-@Data                        // Anotação Lombok que gera: getters, setters, toString, equals e hashCode
-@NoArgsConstructor           // Anotação Lombok que gera um construtor vazio: Reaction()
-@AllArgsConstructor          // Anotação Lombok que gera um construtor com todos os parâmetros
+@Data // Anotação Lombok que gera: getters, setters, toString, equals e hashCode
+@NoArgsConstructor // Anotação Lombok que gera um construtor vazio: Reaction()
+@AllArgsConstructor // Anotação Lombok que gera um construtor com todos os parâmetros
 public class Reaction {
 
     // Atributo: Número de curtidas (likes) da postagem
@@ -40,21 +41,20 @@ public class Reaction {
      *
      * @return String contendo todos os atributos da reação formatados
      *
-     * Exemplo de retorno:
-     * Reaction{likes=1500, dislikes=50}
+     *         Exemplo de retorno:
+     *         Reaction{likes=1500, dislikes=50}
      *
-     * Este método simples mostra a contagem de reações de forma clara
-     * e é útil para debugging e logging
+     *         Este método simples mostra a contagem de reações de forma clara
+     *         e é útil para debugging e logging
      */
     @Override // Anotação que indica que este método sobrescreve um método da classe pai
     public String toString() {
         // Constrói uma string formatada com likes e dislikes
         // Formato: Reaction{likes=X, dislikes=Y}
         return "Reaction{" +
-                "likes=" + likes +           // Adiciona o número de curtidas
-                ", dislikes=" + dislikes +   // Adiciona o número de não-curtidas
-                '}';                         // Fecha a chave
+                "likes=" + likes + // Adiciona o número de curtidas
+                ", dislikes=" + dislikes + // Adiciona o número de não-curtidas
+                '}'; // Fecha a chave
     }
 
 }
-

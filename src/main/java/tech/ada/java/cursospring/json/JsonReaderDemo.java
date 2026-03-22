@@ -1,22 +1,22 @@
-package tech.ada.java.json;
+package tech.ada.java.cursospring.json;
 
 // Importações para trabalhar com JSON
-import java.io.IOException;                        // Exceção para erros de entrada/saída (I/O)
-import java.net.URL;                              // Classe para representar URLs (endereços web)
-import java.util.Scanner;                         // Classe para ler dados de entrada
+import java.io.IOException; // Exceção para erros de entrada/saída (I/O)
+import java.net.URL; // Classe para representar URLs (endereços web)
+import java.util.Scanner; // Classe para ler dados de entrada
 
 // Importações do Jackson - Biblioteca para serialização/desserialização de JSON
-import com.fasterxml.jackson.databind.ObjectMapper;  // Mapeador de objetos Jackson
-import com.fasterxml.jackson.databind.JsonNode;     // Classe para representar estruturas JSON
+import com.fasterxml.jackson.databind.ObjectMapper; // Mapeador de objetos Jackson
+import com.fasterxml.jackson.databind.JsonNode; // Classe para representar estruturas JSON
 
 // Importações de classes do projeto
-import tech.ada.java.Post;                           // Classe entidade Post
+import tech.ada.java.cursospring.json.Post; // Classe entidade Post
 
 // Importações do HttpClient - Cliente HTTP moderno (Java 11+)
-import java.net.http.HttpClient;                     // Cliente HTTP para fazer requisições
-import java.net.http.HttpRequest;                    // Requisição HTTP configurável
-import java.net.http.HttpResponse;                   // Resposta HTTP do servidor
-import java.net.URI;                                 // URI para endereços web (mais moderno que URL)
+import java.net.http.HttpClient; // Cliente HTTP para fazer requisições
+import java.net.http.HttpRequest; // Requisição HTTP configurável
+import java.net.http.HttpResponse; // Resposta HTTP do servidor
+import java.net.URI; // URI para endereços web (mais moderno que URL)
 
 /**
  * Classe de demonstração para leitura de dados JSON de uma API REST.
@@ -26,7 +26,8 @@ import java.net.URI;                                 // URI para endereços web 
  * 2. Ler dados JSON da resposta
  * 3. Processar e exibir os dados
  *
- * Neste exemplo, conectamos à API pública JSONPlaceholder que fornece dados fictícios para testes.
+ * Neste exemplo, conectamos à API pública JSONPlaceholder que fornece dados
+ * fictícios para testes.
  */
 public class JsonReaderDemo {
 
@@ -37,9 +38,10 @@ public class JsonReaderDemo {
      */
     public static void main(String[] args) {
         // Chama o método para fazer uma leitura de dados JSON usando Scanner
-        //lerComScanner();
+        // lerComScanner();
 
-        // Chama o método para fazer uma leitura de dados JSON usando HttpClient (mais moderno)
+        // Chama o método para fazer uma leitura de dados JSON usando HttpClient (mais
+        // moderno)
         lerComHttpClient();
     }
 
@@ -60,22 +62,21 @@ public class JsonReaderDemo {
      *
      * Exemplo de resposta JSON da API:
      * {
-     *   "id": 1,
-     *   "title": "His mother had always taught him...",
-     *   "body": "His mother had always taught him...",
-     *   "userId": 5,
-     *   "tags": ["history", "french"],
-     *   "reactions": {"likes": 192, "dislikes": 25}
+     * "id": 1,
+     * "title": "His mother had always taught him...",
+     * "body": "His mother had always taught him...",
+     * "userId": 5,
+     * "tags": ["history", "french"],
+     * "reactions": {"likes": 192, "dislikes": 25}
      * }
      */
     private static void lerComScanner() {
         // Try-catch para capturar exceções de I/O (erros de conexão, leitura, etc)
         try (
-            // Cria um Scanner que lê dados da URL especificada
-            // openStream() retorna um InputStream que o Scanner pode ler
-            // new URL cria objeto URL apontando para a API pública
-            Scanner scanner = new Scanner(new URL("https://dummyjson.com/posts/1").openStream())
-        ) {
+                // Cria um Scanner que lê dados da URL especificada
+                // openStream() retorna um InputStream que o Scanner pode ler
+                // new URL cria objeto URL apontando para a API pública
+                Scanner scanner = new Scanner(new URL("https://dummyjson.com/posts/1").openStream())) {
             // Metodo useDelimiter altera o delimitador padrão (espaço em branco)
             // para "\\Z" que significa "fim do arquivo"
             // Assim ele lê tudo de uma vez como uma única string contínua
@@ -108,7 +109,8 @@ public class JsonReaderDemo {
     // ...existing code...
 
     /**
-     * Método que demonstra como ler dados JSON de uma API REST usando HttpClient moderno.
+     * Método que demonstra como ler dados JSON de uma API REST usando HttpClient
+     * moderno.
      *
      * HttpClient é a forma RECOMENDADA desde Java 11 para fazer requisições HTTP.
      * É mais poderosa e flexível que Scanner com URL.openStream().
@@ -134,12 +136,12 @@ public class JsonReaderDemo {
      *
      * Exemplo de resposta JSON da API:
      * {
-     *   "id": 1,
-     *   "title": "His mother had always taught him...",
-     *   "body": "His mother had always taught him...",
-     *   "userId": 5,
-     *   "tags": ["history", "french"],
-     *   "reactions": {"likes": 192, "dislikes": 25}
+     * "id": 1,
+     * "title": "His mother had always taught him...",
+     * "body": "His mother had always taught him...",
+     * "userId": 5,
+     * "tags": ["history", "french"],
+     * "reactions": {"likes": 192, "dislikes": 25}
      * }
      */
     private static void lerComHttpClient() {
@@ -153,48 +155,48 @@ public class JsonReaderDemo {
             // Cria uma requisição HTTP GET
             // newBuilder() cria um construtor configurável
             HttpRequest request = HttpRequest.newBuilder()
-                // Define a URI (Uniform Resource Identifier) - endereço do recurso
-                // URI.create() cria a URI a partir de uma string
-                .uri(URI.create("https://dummyjson.com/posts/1"))
-                // build() finaliza a construção da requisição
-                .build();
+                    // Define a URI (Uniform Resource Identifier) - endereço do recurso
+                    // URI.create() cria a URI a partir de uma string
+                    .uri(URI.create("https://dummyjson.com/posts/1"))
+                    // build() finaliza a construção da requisição
+                    .build();
 
             // Envia a requisição de forma assíncrona e aguarda a resposta
             // sendAsync() é assíncrono mas aqui usamos .join() para esperar
             // BodyHandlers.ofString() converte o corpo da resposta em String
             // thenApply() transforma a resposta usando a função lambda
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                // thenApply() é executado quando a resposta chega
-                // stringHttpResponse recebe a resposta HTTP com body como String
-                .thenApply(stringHttpResponse -> {
-                    // Extrai o corpo (body) da resposta HTTP
-                    // body() retorna a string JSON que recebemos da API
-                    String json = stringHttpResponse.body();
+                    // thenApply() é executado quando a resposta chega
+                    // stringHttpResponse recebe a resposta HTTP com body como String
+                    .thenApply(stringHttpResponse -> {
+                        // Extrai o corpo (body) da resposta HTTP
+                        // body() retorna a string JSON que recebemos da API
+                        String json = stringHttpResponse.body();
 
-                    // Converte JSON para objeto Post
-                    try {
-                        Post post = convertJsonToPost(json);
+                        // Converte JSON para objeto Post
+                        try {
+                            Post post = convertJsonToPost(json);
 
-                        // Exibe o JSON bruto
-                        System.out.println(json);
+                            // Exibe o JSON bruto
+                            System.out.println(json);
 
-                        // Exibe quebra-linha
-                        System.out.println();
+                            // Exibe quebra-linha
+                            System.out.println();
 
-                        // Exibe o objeto Post convertido
-                        System.out.println(post);
-                    } catch (IOException ex) {
-                        System.err.println("Erro ao converter JSON: " + ex.getMessage());
-                    }
+                            // Exibe o objeto Post convertido
+                            System.out.println(post);
+                        } catch (IOException ex) {
+                            System.err.println("Erro ao converter JSON: " + ex.getMessage());
+                        }
 
-                    // Retorna null (não usamos o retorno)
-                    return null;
-                })
-                // thenAccept() executa a ação final (não retorna nada)
-                .thenAccept(v -> System.out.println())
-                // join() aguarda a conclusão de toda a cadeia assíncrona
-                // Bloqueia a thread até que a requisição e processamento terminem
-                .join();
+                        // Retorna null (não usamos o retorno)
+                        return null;
+                    })
+                    // thenAccept() executa a ação final (não retorna nada)
+                    .thenAccept(v -> System.out.println())
+                    // join() aguarda a conclusão de toda a cadeia assíncrona
+                    // Bloqueia a thread até que a requisição e processamento terminem
+                    .join();
 
         } catch (Exception ex) {
             // Captura qualquer exceção que possa ocorrer
@@ -218,12 +220,21 @@ public class JsonReaderDemo {
      * @param json String contendo um objeto JSON válido
      * @return Objeto Post preenchido com os dados do JSON
      *
-     * @throws IOException Se houver erro ao fazer parsing do JSON
-     * @throws com.fasterxml.jackson.databind.JsonMappingException Se houver erro ao mapear JSON para Post
+     * @throws IOException                                         Se houver erro ao
+     *                                                             fazer parsing do
+     *                                                             JSON
+     * @throws com.fasterxml.jackson.databind.JsonMappingException Se houver erro ao
+     *                                                             mapear JSON para
+     *                                                             Post
      *
-     * Exemplo:
-     * String json = "{\"id\":1,\"title\":\"Título\",\"body\":\"Corpo\"}";
-     * Post post = convertJsonToPost(json);  // Post(id=1, title="Título", body="Corpo")
+     *                                                             Exemplo:
+     *                                                             String json =
+     *                                                             "{\"id\":1,\"title\":\"Título\",\"body\":\"Corpo\"}";
+     *                                                             Post post =
+     *                                                             convertJsonToPost(json);
+     *                                                             // Post(id=1,
+     *                                                             title="Título",
+     *                                                             body="Corpo")
      */
     // Método que realiza a conversão de JSON para objeto Post usando Jackson
     private static Post convertJsonToPost(String json) throws IOException {
@@ -243,4 +254,3 @@ public class JsonReaderDemo {
     }
 
 }
-
