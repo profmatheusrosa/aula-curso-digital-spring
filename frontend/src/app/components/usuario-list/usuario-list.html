@@ -1,0 +1,33 @@
+<div class="header">
+  <h2>Gerenciamento de Usuários</h2>
+  <button class="btn-primary" routerLink="/usuarios/novo">+ Novo Usuário</button>
+</div>
+
+<div class="glass-panel">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Data de Nascimento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuarios">
+          <td>{{ u.nome }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.dob | date:'dd/MM/yyyy' }}</td>
+          <td class="actions">
+            <button class="btn-edit" [routerLink]="['/usuarios/editar', u.uuid]">Editar</button>
+            <button class="btn-danger" (click)="deletarUsuario(u.uuid)">Excluir</button>
+          </td>
+        </tr>
+        <tr *ngIf="usuarios.length === 0">
+          <td colspan="4" class="empty-state">Nenhum usuário cadastrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
