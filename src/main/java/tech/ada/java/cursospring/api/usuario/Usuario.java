@@ -41,4 +41,11 @@ public class Usuario {
         this.dob = dob;
     }
 
+    @jakarta.persistence.PrePersist
+    protected void onCreate() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID();
+        }
+    }
+
 }

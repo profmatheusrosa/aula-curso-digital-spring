@@ -1,6 +1,9 @@
 <div class="header">
   <h2>Gerenciamento de Usuários</h2>
-  <button class="btn-primary" routerLink="/usuarios/novo">+ Novo Usuário</button>
+  <div class="header-actions">
+    <div class="loading-spinner" *ngIf="loading()">🔄 Carregando...</div>
+    <button class="btn-primary" routerLink="/usuarios/novo">+ Novo Usuário</button>
+  </div>
 </div>
 
 <div class="glass-panel">
@@ -15,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let u of usuarios">
+        <tr *ngFor="let u of usuarios()" [class.loading-row]="loading()">
           <td>{{ u.nome }}</td>
           <td>{{ u.email }}</td>
           <td>{{ u.dob | date:'dd/MM/yyyy' }}</td>
@@ -24,10 +27,16 @@
             <button class="btn-danger" (click)="deletarUsuario(u.uuid)">Excluir</button>
           </td>
         </tr>
-        <tr *ngIf="usuarios.length === 0">
+        <tr *ngIf="usuarios().length === 0 && !loading()">
           <td colspan="4" class="empty-state">Nenhum usuário cadastrado.</td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="pagination" *ngIf="totalPages() > 1">
+    <button class="btn-page" (click)="paginaAnterior()" [disabled]="isFirstPage() || loading()">Anterior</button>
+    <span class="page-info">Página {{ currentPage() + 1 }} de {{ totalPages() }}</span>
+    <button class="btn-page" (click)="proximaPagina()" [disabled]="isLastPage() || loading()">Próxima</button>
   </div>
 </div>

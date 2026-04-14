@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 @CrossOrigin("*")
 @RestController
@@ -49,8 +52,8 @@ public class UsuarioRestController {
     // HTTP - POST, GET, PUT, PATCH, DELETE
 
     @GetMapping
-    public List<Usuario> listarTodos() {
-        return this.repository.findAll();
+    public Page<Usuario> listarTodos(@PageableDefault(size = 5) Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
 
     @GetMapping("/{uuid}")
@@ -59,7 +62,7 @@ public class UsuarioRestController {
                 .orElseThrow(() -> new NaoEncontradoException("Não foi possível encontrar o Usuário"));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Usuario criarUsuario(@RequestBody @Valid Usuario usuario) {
         return this.repository.save(usuario);
     }
@@ -89,6 +92,18 @@ public class UsuarioRestController {
     @DeleteMapping("/{uuid}")
     public void deletarUsuario(@PathVariable UUID uuid) {
         this.repository.deleteByUuid(uuid);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }

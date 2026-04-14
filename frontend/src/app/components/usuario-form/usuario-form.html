@@ -3,25 +3,47 @@
 </div>
 
 <div class="glass-panel form-container">
-  <form (ngSubmit)="salvar()" #form="ngForm">
+
+  <div class="alert alert-success" *ngIf="successMsg()">
+    ✅ {{ successMsg() }}
+  </div>
+
+  <div class="alert alert-error" *ngIf="errorMsg()">
+    ❌ <pre>{{ errorMsg() }}</pre>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
     <div class="form-group">
       <label for="nome">Nome Completo</label>
-      <input type="text" id="nome" name="nome" [(ngModel)]="usuario.nome" required placeholder="Ex: Maria Alice">
+      <input type="text" id="nome" formControlName="nome" placeholder="Ex: Maria Alice">
+      <div class="error-msg" *ngIf="form.get('nome')?.touched && form.get('nome')?.invalid">
+        <small *ngIf="form.get('nome')?.errors?.['required']">O nome é obrigatório.</small>
+        <small *ngIf="form.get('nome')?.errors?.['minlength']">Mínimo de 3 caracteres.</small>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="email">E-mail</label>
-      <input type="email" id="email" name="email" [(ngModel)]="usuario.email" required placeholder="maria@exemplo.com">
+      <input type="email" id="email" formControlName="email" placeholder="maria@exemplo.com">
+      <div class="error-msg" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+        <small *ngIf="form.get('email')?.errors?.['required']">O e-mail é obrigatório.</small>
+        <small *ngIf="form.get('email')?.errors?.['email']">E-mail inválido.</small>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="dob">Data de Nascimento</label>
-      <input type="date" id="dob" name="dob" [(ngModel)]="usuario.dob" required>
+      <input type="date" id="dob" formControlName="dob">
+      <div class="error-msg" *ngIf="form.get('dob')?.touched && form.get('dob')?.invalid">
+        <small *ngIf="form.get('dob')?.errors?.['required']">A data de nascimento é obrigatória.</small>
+      </div>
     </div>
 
     <div class="form-actions">
       <button type="button" class="btn-secondary" routerLink="/usuarios">Cancelar</button>
-      <button type="submit" class="btn-primary" [disabled]="!form.valid">Salvar</button>
+      <button type="submit" class="btn-primary" [disabled]="form.invalid || loading()">
+        {{ loading() ? 'Salvando...' : 'Salvar' }}
+      </button>
     </div>
   </form>
 </div>
